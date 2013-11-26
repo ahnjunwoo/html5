@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+
+<!-- Android --> 
+<link rel="shortcut icon" href="image/icon.png"> 
+<!-- iPhone --> 
+<link rel="apple-touch-icon" href="image/icon.png">
+
+<title>Geo Location</title>
+
+<script type="text/javascript"
+		src="http://maps.google.com/maps/api/js?sensor=true"></script>
+
+<script type="text/javascript">
+	function startPage() {
+		if(navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(
+					successCallback, errorCallback);
+		}
+	}
+	
+	function successCallback(position) {
+		var latitude = position.coords.latitude;
+		var longitude = position.coords.longitude;
+		console.log("위도: " + latitude);
+		console.log("경도: " + longitude);
+		showMap(latitude, longitude);
+	}
+	
+	function errorCallback(error) {
+		alert(error.message);
+	}
+	
+	function showMap(latitude, longitude) {
+		var latlng = new google.maps.LatLng(latitude, longitude);	
+		var myOptions = {
+			zoom: 17,
+			center: latlng,
+			mapTypeControl: true,
+			navigationControlOptions: {style:google.maps.NavigationControlStyle.SMALL},
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		var mapView = document.querySelector("#mapView");
+		var map = new google.maps.Map(mapView, myOptions);//마커를 표시 위한것
+		
+		var marker = new google.maps.Marker({
+			position: latlng,
+			map: map
+		});
+		
+	}
+</script>
+
+</head>
+<body onload="startPage()">
+	<div id="mapView" style="position:absolute;left:0px;top:0px;width:100%;height:100%;"></div>
+</body>
+</html>
+
+
+
+
+
+
+
